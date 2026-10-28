@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: ai-sdk-profile-knowledge
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5433:5432"
+    environment:
+      POSTGRES_USER: ai-sdk
+      POSTGRES_PASSWORD: profile-knowledge
+      POSTGRES_DB: ai_sdk_profile_knowledge
+    volumes:
+      - ai_sdk_profile_knowledge_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ai-sdk -d ai_sdk_profile_knowledge"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  ai_sdk_profile_knowledge_pgdata:
